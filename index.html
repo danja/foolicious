@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Foolicious</title>
+  <meta name="description" content="Foolicious Bookmarker">
+  <meta name="author" content="danja">
+
+  <link rel="stylesheet" href="css/columns.css" />
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/common.css" />
+  <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/tagit.ui-zendesk.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+
+  <script src="js/lib/jquery-1.10.2.js"></script>
+  <script src="js/lib/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+
+  <!-- from https://github.com/aehlke/tag-it -->
+  <script src="js/lib/tag-it.js" type="text/javascript" charset="utf-8"></script>
+
+  <!-- markdown processor -->
+  <script src="js/lib/marked.js"></script>
+  <!-- link rel="stylesheet" href="css/styles.css?v=1.0" -->
+
+</head>
+
+<body>
+  <!-- script src="js/scripts.js"></script -->
+
+  <!-- page URL, title, description, tags, user nickname, date -->
+
+  <form method="post" action="/">
+    <label>URL</label>
+    <input type="text" name="url">
+    <br/>
+    <label>Title</label>
+    <input type="text" name="title">
+    <br/>
+    <label>Description</label>
+    <input type="text" name="description">
+    <br/>
+    <label>Tags</label>
+    <input type="text" name="tags">
+    <br/>
+    <label>Nickname</label>
+    <input type="text" name="nick">
+    <br/>
+    <label>Date</label>
+    <input type="text" name="date">
+    <br/>
+
+    <input type="submit" value="Submit">
+  </form>
+</body>
+
+</html>
