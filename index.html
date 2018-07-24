@@ -26,34 +26,114 @@
   <script src="js/lib/marked.js"></script>
   <!-- link rel="stylesheet" href="css/styles.css?v=1.0" -->
 
+  <script>
+
+    $(document).ready(function() {
+$( "#submit" ).submit(function( event ) {
+
+        postData(formToTurtle());
+      });
+
+
+      function formToTurtle() {
+        var url = $('#url').val();
+        var bookmarkUri = url.replace(/\//g, "_");
+
+        var title = $('#title').val();
+        var description = $('#description').val();
+        var tagString = $('#tags').val();
+        var tags = tagString.split(",");
+        var nick = $('#nick').val();
+        var created = (new Date()).toISOString();
+
+        // "GRAPH <http://hyperdata.it/wiki/> {\n";
+
+        var turtle = "@prefix w: <http://hyperdata.it/wiki/> .\n";
+          turtle += "@prefix tag: <http://hyperdata.it/tags/> .\n";
+          turtle += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n";
+          turtle += "@prefix dc: <http://purl.org/dc/terms/> .\n";
+          turtle += "@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n";
+
+        turtle += "<" + bookmarkUri + "> a w:Bookmark ; \n";
+        turtle += "w:url <" + url + "> ; \n";
+        turtle += "dc:title " + "\"" + title + "\"; \n";
+        turtle += "dc:description " + "\"\"\"" + description + "\"\"\"; \n";
+        turtle += "foaf:nick " + "\"" + nick + "\"; \n";
+        for (var i = 0; i < tags.length; i++) {
+          tags[i] = tags[i].trim();
+          turtle += "dc:topic " + "tag:" + tags[i] + " ; \n";
+        }
+        turtle += "dc:created \"" + created + "\" . \n";
+        for (var i = 0; i < tags.length; i++) {
+          turtle += "tag:" + tags[i] + " rdfs:label \"" + tags[i] + "\". \n";
+        }
+        console.log(turtle);
+        return turtle;
+      }
+
+    });
+
+    function postData(turtle) {
+      $.post("http://localhost:4040/", { // graph=http://hyperdata.it/wiki/
+        data: turtle
+      }, function(data) {
+        console.log(data);
+      });
+    }
+
+    /*
+  POST /rdf-graph-store?graph=..graph_uri.. HTTP/1.1
+Host: example.com
+Content-Type: text/turtle
+
+... RDF payload ...
+
+equivalent to:
+
+    INSERT DATA { GRAPH <graph_uri> { .. RDF payload .. } }
+
+    GRAPH <http://hyperdata.it/wiki/> {
+     <http://example/book1>  ns:price  42
+   }
+
+   function hashCode(str) {
+     return str.split('').reduce((prevHash, currVal) =>
+       (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+   }
+
+   // Test
+   console.log("hashCode(\"Hello!\"): ", hashCode('Hello!'));
+
+  str.replace(/\//g, "_");
+*/
+  </script>
+
 </head>
 
 <body>
-  <!-- script src="js/scripts.js"></script -->
+
 
   <!-- page URL, title, description, tags, user nickname, date -->
 
-  <form method="post" action="/">
+  <form id="submit">
     <label>URL</label>
-    <input type="text" name="url">
+    <input type="text" name="url" id="url" value="http://test">
     <br/>
     <label>Title</label>
-    <input type="text" name="title">
+    <input type="text" name="title" id="title" value="the title">
     <br/>
     <label>Description</label>
-    <input type="text" name="description">
+    <textarea id="description" name="description" rows="6" cols="50">some description</textarea>
     <br/>
     <label>Tags</label>
-    <input type="text" name="tags">
+    <input type="text" name="tags" id="tags" value="tag1, tag2, tag3">
     <br/>
     <label>Nickname</label>
-    <input type="text" name="nick">
+    <input type="text" name="nick" id="nick" value="danja">
     <br/>
-    <label>Date</label>
-    <input type="text" name="date">
     <br/>
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" action="postData(formToTurtle())">
   </form>
 </body>
 

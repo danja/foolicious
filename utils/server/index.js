@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post("/", function (req, res) {
-    console.log(req.body.user.name)
+    console.log(req.body)
 });
 
 app.listen(4040, () => console.log('Example app listening on port 4040'));
