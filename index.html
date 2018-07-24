@@ -48,11 +48,12 @@ $( "#submit" ).submit(function( event ) {
 
         // "GRAPH <http://hyperdata.it/wiki/> {\n";
 
-        var turtle = "@prefix w: <http://hyperdata.it/wiki/> .\n";
-          turtle += "@prefix tag: <http://hyperdata.it/tags/> .\n";
-          turtle += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n";
-          turtle += "@prefix dc: <http://purl.org/dc/terms/> .\n";
-          turtle += "@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n";
+        var turtle = "prefix w: <http://hyperdata.it/wiki/> \n";
+          turtle += "prefix tag: <http://hyperdata.it/tags/> \n";
+          turtle += "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n";
+          turtle += "prefix dc: <http://purl.org/dc/terms/> \n";
+          turtle += "prefix foaf: <http://xmlns.com/foaf/0.1/> \n";
+turtle += "INSERT DATA { GRAPH <http://hyperdata.it/wiki/> { \n";
 
         turtle += "<" + bookmarkUri + "> a w:Bookmark ; \n";
         turtle += "w:url <" + url + "> ; \n";
@@ -67,18 +68,29 @@ $( "#submit" ).submit(function( event ) {
         for (var i = 0; i < tags.length; i++) {
           turtle += "tag:" + tags[i] + " rdfs:label \"" + tags[i] + "\". \n";
         }
+        turtle += "}}";
         console.log(turtle);
         return turtle;
       }
 
     });
 
+  // http://192.168.0.102:3030/foolicious/update http://localhost:4040/
     function postData(turtle) {
-      $.post("http://localhost:4040/", { // graph=http://hyperdata.it/wiki/
-        data: turtle
-      }, function(data) {
-        console.log(data);
-      });
+          $.ajax({
+              type: "POST",
+              url: "http://192.168.0.102:3030/foolicious/update",
+              data: ({
+                  update: turtle
+              })
+          }).done(function () {
+        //      var fliptoViewPage = function () {
+        //          window.location.href = window.location.href.replace("edit.html", "page.html");
+        //      };
+        alert("done"); // use error banner
+          }).fail(function () {
+              alert("error posting data"); // use error banner
+          });
     }
 
     /*
