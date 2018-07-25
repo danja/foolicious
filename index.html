@@ -27,71 +27,72 @@
   <!-- link rel="stylesheet" href="css/styles.css?v=1.0" -->
 
   <script>
-
-    $(document).ready(function() {
-$( "#submit" ).submit(function( event ) {
-
-        postData(formToTurtle());
-      });
-
-
-      function formToTurtle() {
-        var url = $('#url').val();
-        var bookmarkUri = url.replace(/\//g, "_");
-
-        var title = $('#title').val();
-        var description = $('#description').val();
-        var tagString = $('#tags').val();
-        var tags = tagString.split(",");
-        var nick = $('#nick').val();
-        var created = (new Date()).toISOString();
-
-        // "GRAPH <http://hyperdata.it/wiki/> {\n";
-
-        var turtle = "prefix w: <http://hyperdata.it/wiki/> \n";
-          turtle += "prefix tag: <http://hyperdata.it/tags/> \n";
-          turtle += "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n";
-          turtle += "prefix dc: <http://purl.org/dc/terms/> \n";
-          turtle += "prefix foaf: <http://xmlns.com/foaf/0.1/> \n";
-turtle += "INSERT DATA { GRAPH <http://hyperdata.it/wiki/> { \n";
-
-        turtle += "<" + bookmarkUri + "> a w:Bookmark ; \n";
-        turtle += "w:url <" + url + "> ; \n";
-        turtle += "dc:title " + "\"" + title + "\"; \n";
-        turtle += "dc:description " + "\"\"\"" + description + "\"\"\"; \n";
-        turtle += "foaf:nick " + "\"" + nick + "\"; \n";
-        for (var i = 0; i < tags.length; i++) {
-          tags[i] = tags[i].trim();
-          turtle += "dc:topic " + "tag:" + tags[i] + " ; \n";
-        }
-        turtle += "dc:created \"" + created + "\" . \n";
-        for (var i = 0; i < tags.length; i++) {
-          turtle += "tag:" + tags[i] + " rdfs:label \"" + tags[i] + "\". \n";
-        }
-        turtle += "}}";
-        console.log(turtle);
-        return turtle;
-      }
-
+     $(document).ready(function() {
+    $('#submit').click(function() {
+      alert("click!");
+      postData(formToTurtle());
     });
+  });
 
-  // http://192.168.0.102:3030/foolicious/update http://localhost:4040/
+    function formToTurtle() {
+      var url = $('#url').val();
+      var bookmarkUri = url.replace(/\//g, "_");
+
+      var title = $('#title').val();
+      var description = $('#description').val();
+      var tagString = $('#tags').val();
+      var tags = tagString.split(",");
+      var nick = $('#nick').val();
+      var created = (new Date()).toISOString();
+
+      // "GRAPH <http://hyperdata.it/wiki/> {\n";
+
+      var turtle = "prefix w: <http://hyperdata.it/wiki/> \n";
+      turtle += "prefix tag: <http://hyperdata.it/tags/> \n";
+      turtle += "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n";
+      turtle += "prefix dc: <http://purl.org/dc/terms/> \n";
+      turtle += "prefix foaf: <http://xmlns.com/foaf/0.1/> \n";
+      turtle += "INSERT DATA { GRAPH <http://hyperdata.it/wiki/> { \n";
+
+      turtle += "<" + bookmarkUri + "> a w:Bookmark ; \n";
+      turtle += "w:url <" + url + "> ; \n";
+      turtle += "dc:title " + "\"" + title + "\"; \n";
+      turtle += "dc:description " + "\"\"\"" + description + "\"\"\"; \n";
+      turtle += "foaf:nick " + "\"" + nick + "\"; \n";
+      for (var i = 0; i < tags.length; i++) {
+        tags[i] = tags[i].trim();
+        turtle += "dc:topic " + "tag:" + tags[i] + " ; \n";
+      }
+      turtle += "dc:created \"" + created + "\" . \n";
+      for (var i = 0; i < tags.length; i++) {
+        turtle += "tag:" + tags[i] + " rdfs:label \"" + tags[i] + "\". \n";
+      }
+      turtle += "}}";
+      console.log(turtle);
+      return turtle;
+    }
+
+
+
+
+    // http://192.168.0.102:3030/foolicious/update http://localhost:4040/
     function postData(turtle) {
-          $.ajax({
-              type: "POST",
-              url: "http://192.168.0.102:3030/foolicious/update",
-              data: ({
-                  update: turtle
-              })
-          }).done(function () {
+      $.ajax({
+        type: "POST",
+        url: "http://192.168.0.102:3030/foolicious/update",
+        data: ({
+          update: turtle
+        })
+      }).done(function() {
         //      var fliptoViewPage = function () {
         //          window.location.href = window.location.href.replace("edit.html", "page.html");
         //      };
         alert("done"); // use error banner
-          }).fail(function () {
-              alert("error posting data"); // use error banner
-          });
+      }).fail(function() {
+        alert("error posting data"); // use error banner
+      });
     }
+
 
     /*
   POST /rdf-graph-store?graph=..graph_uri.. HTTP/1.1
@@ -125,11 +126,12 @@ equivalent to:
 <body>
 
 
+
   <!-- page URL, title, description, tags, user nickname, date -->
 
   <form id="submit">
     <label>URL</label>
-    <input type="text" name="url" id="url" value="http://test">
+    <input type="text" name="url" id="url" value="http://test2">
     <br/>
     <label>Title</label>
     <input type="text" name="title" id="title" value="the title">
@@ -144,8 +146,7 @@ equivalent to:
     <input type="text" name="nick" id="nick" value="danja">
     <br/>
     <br/>
-
-    <input type="submit" value="Submit" action="postData(formToTurtle())">
+    <button type="button" id="submit">Click Me!</button>
   </form>
 </body>
 
