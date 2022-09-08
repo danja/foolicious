@@ -5,6 +5,7 @@ javascript: (function($) {
     $('#DELI_save_link_slidedown').slideDown('normal');
     return
   };
+
   if (!window.jQuery) {
     node = document.createElement('SCRIPT');
     node.type = 'text/javascript';
