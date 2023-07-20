@@ -27,12 +27,12 @@
   <!-- link rel="stylesheet" href="css/styles.css?v=1.0" -->
 
   <script>
-     $(document).ready(function() {
-    $('#submit').click(function() {
-      alert("click!");
-      postData(formToTurtle());
+    $(document).ready(function () {
+      $('#submit').click(function () {
+        alert("click!");
+        postData(formToTurtle());
+      });
     });
-  });
 
     function formToTurtle() {
       var url = $('#url').val();
@@ -83,12 +83,12 @@
         data: ({
           update: turtle
         })
-      }).done(function() {
+      }).done(function () {
         //      var fliptoViewPage = function () {
         //          window.location.href = window.location.href.replace("edit.html", "page.html");
         //      };
         alert("done"); // use error banner
-      }).fail(function() {
+      }).fail(function () {
         alert("error posting data"); // use error banner
       });
     }
@@ -125,27 +125,27 @@ equivalent to:
 
 <body>
 
-
+  <script id="replace_with_navbar" src="/share/nav.js"></script>
 
   <!-- page URL, title, description, tags, user nickname, date -->
 
   <form id="submit">
     <label>URL</label>
     <input type="text" name="url" id="url" value="http://test2">
-    <br/>
+    <br />
     <label>Title</label>
     <input type="text" name="title" id="title" value="the title">
-    <br/>
+    <br />
     <label>Description</label>
     <textarea id="description" name="description" rows="6" cols="50">some description</textarea>
-    <br/>
+    <br />
     <label>Tags</label>
     <input type="text" name="tags" id="tags" value="tag1, tag2, tag3">
-    <br/>
+    <br />
     <label>Nickname</label>
     <input type="text" name="nick" id="nick" value="danja">
-    <br/>
-    <br/>
+    <br />
+    <br />
     <button type="button" id="submit">Click Me!</button>
   </form>
 </body>
